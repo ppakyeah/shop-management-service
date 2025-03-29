@@ -1,12 +1,22 @@
-FROM python:3.8
+FROM python:3.9.21
+
 RUN apt-get update -qq && apt-get install -y -qq \
     gdal-bin binutils libproj-dev libgdal-dev cmake &&\
     apt-get clean all &&\
     rm -rf /var/apt/lists/* &&\
     rm -rf /var/cache/apt/*
+
 ENV PYTHONUNBUFFERED 1
+
 WORKDIR /django_project
+
+COPY pyproject.toml poetry.lock /django_project/
+
+RUN pip install poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install --no-interaction --no-ansi --no-root
+
 COPY . /django_project
-RUN pip install -r requirements.txt
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import environ
+
 import os
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,72 +25,81 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 
 # reading the EVN file
-environ.Env.read_env(BASE_DIR.__str__() + '/../.env')
+environ.Env.read_env(BASE_DIR.__str__() + "/../.env")
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'django_filters',
-    'api',
-    'api.app1',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "django_filters",
+    "drf_spectacular",
+    "api",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-POSTGRES_USER = env('POSTGRES_USER')
-POSTGRES_NAME = env('POSTGRES_NAME')
-POSTGRES_PASSWORD = env('POSTGRES_PASSWORD')
-POSTGRES_HOST = env('POSTGRES_HOST')
-POSTGRES_PORT = env('POSTGRES_PORT')
+MYSQL_USER = env("MYSQL_USER")
+MYSQL_NAME = env("MYSQL_NAME")
+MYSQL_PASSWORD = env("MYSQL_PASSWORD")
+MYSQL_HOST = env("MYSQL_HOST")
+MYSQL_PORT = env("MYSQL_PORT")
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': POSTGRES_NAME,
-        'USER': POSTGRES_USER,
-        'PASSWORD': POSTGRES_PASSWORD,
-        'HOST': POSTGRES_HOST,
-        'PORT': POSTGRES_PORT,
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": MYSQL_NAME,
+        "USER": MYSQL_USER,
+        "PASSWORD": MYSQL_PASSWORD,
+        "HOST": MYSQL_HOST,
+        "PORT": MYSQL_PORT,
+        "OPTIONS": {
+            "charset": "utf8mb4",
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        "TEST": {
+            "NAME": "shop_management_test",
+            "CHARSET": "utf8mb4",
+            "COLLATION": "utf8mb4_unicode_ci",
+        },
     },
 }
 
@@ -98,16 +109,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -115,9 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -129,84 +140,105 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ]
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Logging configuration
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{asctime} {levelname} {filename} {funcName} {lineno} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {filename} {funcName} {lineno} {message}",
+            "style": "{",
         },
-        'simple': {
-            'format': '{asctime} {levelname} - {message}',
-            'style': '{',
-        },
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
+        "simple": {
+            "format": "{asctime} {levelname} - {message}",
+            "style": "{",
         },
     },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'filters': ['require_debug_true'],
-            'formatter': 'simple',
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
         },
-        'log_file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'api.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 mb
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'error_file': {
-            'level': 'ERROR',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'api_error.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 mb
-            'backupCount': 5,
-            'formatter': 'verbose',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['require_debug_false'],
-            'formatter': 'verbose',
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
         },
     },
-    'loggers': {
-        'django_project_api': {
-            'handlers': ['console', 'log_file', 'error_file', 'mail_admins'],
-            'level': 'DEBUG',
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "filters": ["require_debug_true"],
+            "formatter": "simple",
         },
-        'django.request': {
-            'handlers': ['mail_admins', 'error_file'],
-            'level': 'ERROR',
-            'propagate': False,
+        "log_file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "api.log",
+            "maxBytes": 1024 * 1024 * 5,  # 5 mb
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+        "error_file": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "api_error.log",
+            "maxBytes": 1024 * 1024 * 5,  # 5 mb
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "filters": ["require_debug_false"],
+            "formatter": "verbose",
         },
     },
+    "loggers": {
+        "django_project_api": {
+            "handlers": ["console", "log_file", "error_file", "mail_admins"],
+            "level": "DEBUG",
+        },
+        "django.request": {
+            "handlers": ["mail_admins", "error_file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Product Management API Document",
+    "DESCRIPTION": "drf-specatular 를 사용해서 만든 API 문서입니다.",
+    "SWAGGER_UI_SETTINGS": {
+        "dom_id": "#swagger-ui",
+        "layout": "BaseLayout",
+        "deepLinking": True,
+        "displayOperationId": True,
+        "filter": True,
+    },
+    "LICENSE": {
+        "name": "MIT License",
+    },
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.38.0",
 }
