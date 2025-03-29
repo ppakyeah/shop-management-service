@@ -1,7 +1,5 @@
-from django.urls import path, include
-from api.app1 import urls as app1_urls
+from django.urls import include, path
 
+from api.products import urls as products_urls
 
-urlpatterns = [
-    path(r'app1/', include(app1_urls))
-]
+urlpatterns = [path("", include(products_urls))]

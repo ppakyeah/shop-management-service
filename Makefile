@@ -1,10 +1,10 @@
 .PHONY: build up down logs ps exec-app clean test format restart help
 
 build:
-	docker-compose build
+	docker-compose build web_app_db django_backend
 
 up:
-	docker-compose up -d
+	docker-compose up -d web_app_db django_backend
 
 down:
 	docker-compose down
